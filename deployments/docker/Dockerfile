@@ -13,7 +13,7 @@ FROM eclipse-temurin:21-jre-alpine AS http
 WORKDIR /app
 
 ARG JAR_FILE=/build/target/*.jar
-COPY --from=build $JAR_FILE /app/app.jar
+COPY --from=build $JAR_FILE /app/
 
 EXPOSE 8091
-CMD ["sh", "-c", "java -jar /app/app.jar"]
+CMD ["sh", "-c", "java -jar /app/*.jar"]
