@@ -1,0 +1,5 @@
+mcp-server:
+  REPLICA_COUNT: 1
+  SERVICE:
+    TYPE: ClusterIP
+    PORT: 8091

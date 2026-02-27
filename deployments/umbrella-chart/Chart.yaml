@@ -1,0 +1,8 @@
+apiVersion: v2
+name: umbrella-chart
+description: An umbrella Helm chart to deploy backend and gateway services
+version: 1.0.0
+dependencies:
+  - name: mcp-server
+    version: "0.1"
+    repository: "file://charts/mcp-server"

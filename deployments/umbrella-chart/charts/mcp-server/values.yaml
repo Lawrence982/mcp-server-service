@@ -1,0 +1,9 @@
+IMAGE:
+  REPOSITORY: mcp-server
+  TAG: 1
+  PULL_POLICY: IfNotPresent
+
+REPLICA_COUNT: 1
+SERVICE:
+  TYPE: ClusterIP
+  PORT: 8091
