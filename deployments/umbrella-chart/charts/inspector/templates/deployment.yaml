@@ -18,3 +18,8 @@ spec:
           ports:
             - containerPort: 6274
             - containerPort: 6277
+          env:
+            - name: HOST
+              value: 0.0.0.0
+            - name: ALLOWED_ORIGINS
+              value: http://mcp.inspector.local

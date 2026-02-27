@@ -8,9 +8,19 @@ spec:
       http:
         paths:
           - path: /
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: mcp-inspector-http
                 port:
-                  number: {{ .Values.SERVICE.PORT }}
+                  number: 6274
+    - host: mcp-proxy.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mcp-inspector-http
+                port:
+                  number: 6277
