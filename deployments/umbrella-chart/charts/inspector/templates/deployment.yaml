@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-inspector-http
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-inspector
+  template:
+    metadata:
+      labels:
+        app: mcp-inspector
+    spec:
+      containers:
+        - name: inspector-http
+          image: ghcr.io/modelcontextprotocol/inspector:latest
+          ports:
+            - containerPort: 6274
+            - containerPort: 6277

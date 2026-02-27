@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: mcp-server-service
-  name: mcp-server-service
+    app: mcp-server-http
+  name: mcp-server-http
 spec:
   replicas: {{ .Values.REPLICA_COUNT }}
   selector:
     matchLabels:
-      app: mcp-server-service
+      app: mcp-server-http
   strategy: {}
   template:
     metadata:
       labels:
-        app: mcp-server-service
+        app: mcp-server-http
     spec:
       containers:
         - image: {{ .Values.IMAGE.REPOSITORY }}:{{ .Values.IMAGE.TAG }}

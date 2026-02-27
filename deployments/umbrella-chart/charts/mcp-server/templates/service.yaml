@@ -2,15 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: mcp-server-service
-  name: mcp-server-service
+    app: mcp-server-http
+  name: mcp-server-http
 spec:
   ports:
     - port: {{ .Values.SERVICE.PORT }}
       protocol: TCP
       targetPort: {{ .Values.SERVICE.PORT }}
   selector:
-    app: mcp-server-service
+    app: mcp-server-http
   type: {{ .Values.SERVICE.TYPE }}
 status:
   loadBalancer: {}
