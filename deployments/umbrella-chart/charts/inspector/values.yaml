@@ -1,4 +1,7 @@
 REPLICA_COUNT: 1
 SERVICE:
   TYPE: ClusterIP
-  PORT: 6274
+  UI:
+    PORT: 6274
+  PROXY:
+    PORT: 6277

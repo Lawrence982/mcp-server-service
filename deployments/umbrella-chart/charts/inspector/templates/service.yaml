@@ -9,11 +9,11 @@ spec:
   ports:
     - name: ui
       protocol: TCP
-      port: 6274
-      targetPort: 6274
+      port: {{ .Values.SERVICE.UI.PORT }}
+      targetPort: {{ .Values.SERVICE.UI.PORT }}
       nodePort: 30274
     - name: proxy
       protocol: TCP
-      port: 6277
-      targetPort: 6277
+      port: {{ .Values.SERVICE.PROXY.PORT }}
+      targetPort: {{ .Values.SERVICE.PROXY.PORT }}
       nodePort: 30277
