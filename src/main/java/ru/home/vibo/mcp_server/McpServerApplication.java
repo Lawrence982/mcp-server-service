@@ -32,6 +32,6 @@ public class McpServerApplication {
     }
 
     private static McpSchema.ServerCapabilities createServerCapabilities() {
-        return McpSchema.ServerCapabilities.builder().build();
+        return McpSchema.ServerCapabilities.builder().tools(true).build();
     }
 }
