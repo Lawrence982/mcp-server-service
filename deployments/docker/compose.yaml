@@ -2,7 +2,7 @@ name: mcp-server-and-inspector
 
 services:
   # -------- HTTP: Java MCP server -----------------------------
-  server-http:
+  mcp-server-http:
     build:
       context: ../../                   # корень: папка docker (где compose.yml и .dockerignore)
       dockerfile: deployments/docker/Dockerfile
@@ -22,7 +22,7 @@ services:
     image: ghcr.io/modelcontextprotocol/inspector:latest
     container_name: mcp-inspector-http
     depends_on:
-      - server-http
+      - mcp-server-http
     environment:
       HOST: "0.0.0.0"
       ALLOWED_ORIGINS: "http://localhost:6274"
