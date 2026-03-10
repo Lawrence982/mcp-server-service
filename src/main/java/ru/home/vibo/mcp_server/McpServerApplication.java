@@ -10,6 +10,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ObjectNode;
 
 public class McpServerApplication {
     @SneakyThrows
@@ -27,11 +28,13 @@ public class McpServerApplication {
 
         McpServerFeatures.SyncToolSpecification bioSensorToolSpec = McpServerFeatures.SyncToolSpecification.builder()
                 .tool(bioSensorTool)
-                .callHandler((mcpSyncServerExchange, callToolRequest) ->
-                        McpSchema.CallToolResult.builder()
-                                .addTextContent("пульс пользователя 42")
-                                .isError(false)
-                                .build())
+                .callHandler((mcpSyncServerExchange, callToolRequest) -> {
+                    String days = callToolRequest.arguments().get("days").toString();
+                    return McpSchema.CallToolResult.builder()
+                            .addTextContent("пульс пользователя за " + days + " дней, составил 42 ударов в минуту")
+                            .isError(false)
+                            .build();
+                        })
                 .build();
 
         McpServer.sync(transportProvider)
@@ -53,7 +56,13 @@ public class McpServerApplication {
     }
 
     private static String createBioSensorSchema() {
-        return new JsonMapper().createObjectNode().put("type", "object").toString();
+        ObjectNode root = new JsonMapper().createObjectNode().put("type", "object");
+        root.putObject("properties")
+                .putObject("days")
+                .put("type", "integer")
+                .put("description", "Number of past days to include in the pulse reading request")
+                .putArray("required").add("days");
+        return root.toString();
     }
 
     private static McpSchema.ServerCapabilities createServerCapabilities() {
