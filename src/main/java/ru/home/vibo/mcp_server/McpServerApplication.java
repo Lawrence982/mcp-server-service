@@ -12,6 +12,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ObjectNode;
 
+import java.util.HashMap;
+
 public class McpServerApplication {
     @SneakyThrows
     public static void main(String[] args) {
@@ -23,17 +25,17 @@ public class McpServerApplication {
                 .name("bioSenser")
                 .title("Human Vital Pulse Sensor")
                 .description("Returns the current heart rate of the user as a simple string value")
-                .inputSchema(new JacksonMcpJsonMapper(new JsonMapper()), createBioSensorSchema())
+                .inputSchema(new JacksonMcpJsonMapper(new JsonMapper()), createBioSensorInputSchema())
+                .outputSchema(new JacksonMcpJsonMapper(new JsonMapper()), createBioSensorOutputSchema())
                 .build();
 
         McpServerFeatures.SyncToolSpecification bioSensorToolSpec = McpServerFeatures.SyncToolSpecification.builder()
                 .tool(bioSensorTool)
                 .callHandler((mcpSyncServerExchange, callToolRequest) -> {
-                    String days = callToolRequest.arguments().get("days").toString();
-                    return McpSchema.CallToolResult.builder()
-                            .addTextContent("пульс пользователя за " + days + " дней, составил 42 ударов в минуту")
-                            .isError(false)
-                            .build();
+                    String  serverMessage = "я тут получил вот такой запрос на вызов тула: " + callToolRequest.toString();
+                    mcpSyncServerExchange.loggingNotification(McpSchema.LoggingMessageNotification.builder().data(serverMessage).build());
+                    int days = (int) callToolRequest.arguments().get("days");
+                    return calculateResult(days);
                         })
                 .build();
 
@@ -55,13 +57,41 @@ public class McpServerApplication {
         server.join();
     }
 
-    private static String createBioSensorSchema() {
+    private static McpSchema.CallToolResult calculateResult(int days) {
+
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("pulse", " твой пульс " + 42 + days);
+        properties.put("state", "тебе кабзда");
+        properties.put("sleepDeprivation", true);
+
+        return McpSchema.CallToolResult.builder()
+                .structuredContent(properties)
+                .isError(false)
+                .build();
+    }
+
+    private static String createBioSensorOutputSchema() {
+        ObjectNode root = new JsonMapper().createObjectNode().put("type", "object");
+        ObjectNode properties = root.putObject("properties");
+        properties.putObject("pulse")
+                .put("type", "string")
+                .put("description", "average rate for last days");
+        properties.putObject("state")
+                .put("type", "string")
+                .put("description", "what state of user");
+        properties.putObject("sleepDeprivation")
+                .put("type", "boolean")
+                .put("description", "sleep deprivation yes or no");
+        return root.toString();
+    }
+
+    private static String createBioSensorInputSchema() {
         ObjectNode root = new JsonMapper().createObjectNode().put("type", "object");
         root.putObject("properties")
                 .putObject("days")
                 .put("type", "integer")
-                .put("description", "Number of past days to include in the pulse reading request")
-                .putArray("required").add("days");
+                .put("description", "Number of past days to include in the pulse reading request");
+        root.putArray("required").add("days");
         return root.toString();
     }
 
