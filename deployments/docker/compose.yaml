@@ -9,10 +9,14 @@ services:
       target: http
     image: mcp-server:http
     container_name: mcp-server-http
+    environment:
+      JAVA_TOOL_OPTIONS: >-
+        -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:62925
     expose:
       - "8091"
     ports:
       - "8091:8091"
+      - "62925:62925"
     networks:
       - proxynet
 
