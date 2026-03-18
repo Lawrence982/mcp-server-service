@@ -5,18 +5,42 @@ metadata:
     app: mcp-server-http
   name: mcp-server-http
 spec:
-  replicas: {{ .Values.REPLICA_COUNT }}
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: mcp-server-http
-  strategy: {}
   template:
     metadata:
       labels:
         app: mcp-server-http
     spec:
       containers:
-        - image: {{ .Values.IMAGE.REPOSITORY }}:{{ .Values.IMAGE.TAG }}
+        - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: server
-          resources: {}
-status: {}
+          ports:
+            - containerPort: 8091
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8091
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8091
+            initialDelaySeconds: 15
+            periodSeconds: 5

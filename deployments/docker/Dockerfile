@@ -4,6 +4,7 @@ FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /build
 
 COPY pom.xml .
+RUN mvn dependency:go-offline -q
 
 COPY src ./src
 RUN mvn package -DskipTests
@@ -12,8 +13,10 @@ RUN mvn package -DskipTests
 FROM eclipse-temurin:21-jre-alpine AS http
 WORKDIR /app
 
-ARG JAR_FILE=/build/target/*.jar
-COPY --from=build $JAR_FILE /app/
+COPY --from=build /build/target/mcp-server-service-2.0-SNAPSHOT.jar /app/app.jar
+
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
 
 EXPOSE 8091
-CMD ["sh", "-c", "java -jar /app/*.jar"]
+CMD ["java", "-jar", "/app/app.jar"]

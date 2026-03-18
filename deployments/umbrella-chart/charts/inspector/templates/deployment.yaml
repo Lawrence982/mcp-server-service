@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: mcp-inspector-http
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: mcp-inspector
@@ -22,4 +22,4 @@ spec:
             - name: HOST
               value: 0.0.0.0
             - name: ALLOWED_ORIGINS
-              value: http://mcp.inspector.local
+              value: http://{{ .Values.ingress.uiHost }}

@@ -1,7 +1,10 @@
-REPLICA_COUNT: 1
-SERVICE:
-  TYPE: ClusterIP
-  UI:
-    PORT: 6274
-  PROXY:
-    PORT: 6277
+replicaCount: 1
+service:
+  type: ClusterIP
+  ui:
+    port: 6274
+  proxy:
+    port: 6277
+ingress:
+  uiHost: mcp.inspector.local
+  proxyHost: mcp-proxy.local

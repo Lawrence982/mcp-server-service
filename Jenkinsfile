@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                sh 'mvn clean package -DskipTests'
             }
         }
         stage('Test') {
@@ -59,7 +59,7 @@ pipeline {
 
                     charts.each { chartName ->
                     // Формируем доп. параметры только для mcp-server
-                    def overrideTag = (chartName == "mcp-server") ? "--set IMAGE.TAG=${IMAGE_TAG}" : ""
+                    def overrideTag = (chartName == "mcp-server") ? "--set image.tag=${IMAGE_TAG}" : ""
 
                     echo "Deploying ${chartName}..."
                         sh """

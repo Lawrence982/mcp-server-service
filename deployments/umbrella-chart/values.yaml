@@ -1,5 +1,23 @@
 mcp-server:
-  REPLICA_COUNT: 1
-  SERVICE:
-    TYPE: ClusterIP
-    PORT: 8091
+  replicaCount: 1
+  image:
+    repository: mcp-server
+    tag: 1
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8091
+  ingress:
+    host: mcp.server.local
+
+inspector:
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    ui:
+      port: 6274
+    proxy:
+      port: 6277
+  ingress:
+    uiHost: mcp.inspector.local
+    proxyHost: mcp-proxy.local

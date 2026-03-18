@@ -4,7 +4,7 @@ metadata:
   name: mcp-server-ingress
 spec:
   rules:
-    - host: mcp.server.local
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           - path: /
@@ -13,4 +13,4 @@ spec:
               service:
                 name: mcp-server-http
                 port:
-                  number: {{ .Values.SERVICE.PORT }}
+                  number: {{ .Values.service.port }}

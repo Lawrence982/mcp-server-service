@@ -1,0 +1,16 @@
+spring:
+  ai:
+    mcp:
+      server:
+        name: mcp-server
+        version: 1.0.0
+        annotation-scanner:
+          enabled: true
+        protocol: streamable
+        type: sync
+        streamable-http:
+          mcp-endpoint: /mcpserver
+        request-timeout: 5m
+
+server:
+  port: 8091

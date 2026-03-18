@@ -3,17 +3,15 @@ kind: Service
 metadata:
   name: mcp-inspector-http
 spec:
-  type: NodePort
+  type: {{ .Values.service.type }}
   selector:
     app: mcp-inspector
   ports:
     - name: ui
       protocol: TCP
-      port: {{ .Values.SERVICE.UI.PORT }}
-      targetPort: {{ .Values.SERVICE.UI.PORT }}
-      nodePort: 30274
+      port: {{ .Values.service.ui.port }}
+      targetPort: {{ .Values.service.ui.port }}
     - name: proxy
       protocol: TCP
-      port: {{ .Values.SERVICE.PROXY.PORT }}
-      targetPort: {{ .Values.SERVICE.PROXY.PORT }}
-      nodePort: 30277
+      port: {{ .Values.service.proxy.port }}
+      targetPort: {{ .Values.service.proxy.port }}

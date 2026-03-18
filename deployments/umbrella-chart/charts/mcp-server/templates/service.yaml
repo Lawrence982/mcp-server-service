@@ -6,11 +6,9 @@ metadata:
   name: mcp-server-http
 spec:
   ports:
-    - port: {{ .Values.SERVICE.PORT }}
+    - port: {{ .Values.service.port }}
       protocol: TCP
-      targetPort: {{ .Values.SERVICE.PORT }}
+      targetPort: {{ .Values.service.port }}
   selector:
     app: mcp-server-http
-  type: {{ .Values.SERVICE.TYPE }}
-status:
-  loadBalancer: {}
+  type: {{ .Values.service.type }}

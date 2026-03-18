@@ -4,8 +4,8 @@ description: An umbrella Helm chart to deploy backend and gateway services
 version: 1.0.0
 dependencies:
   - name: mcp-server
-    version: "0.1.0"
+    version: "0.2.0"
     repository: "file://charts/mcp-server"
   - name: inspector
-    version: "0.3.0"
+    version: "0.3.1"
     repository: "file://charts/inspector"

@@ -1,12 +1,16 @@
 package ru.home.vibo.mcp_server.business;
 
-import java.util.Random;
+import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ThreadLocalRandom;
+
+@Component
 public class PulseCalculator {
 
-    public static final Random RANDOM = new Random();
+    private static final int MIN_PULSE = 1;
+    private static final int MAX_PULSE = 100;
 
-    public static int getPulse(){
-        return RANDOM.nextInt(100)+1;
+    public int getPulse() {
+        return ThreadLocalRandom.current().nextInt(MAX_PULSE) + MIN_PULSE;
     }
 }

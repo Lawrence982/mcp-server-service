@@ -4,7 +4,7 @@ metadata:
   name: mcp-inspector-ingress
 spec:
   rules:
-    - host: mcp.inspector.local
+    - host: {{ .Values.ingress.uiHost }}
       http:
         paths:
           - path: /
@@ -13,8 +13,8 @@ spec:
               service:
                 name: mcp-inspector-http
                 port:
-                  number: 6274
-    - host: mcp-proxy.local
+                  number: {{ .Values.service.ui.port }}
+    - host: {{ .Values.ingress.proxyHost }}
       http:
         paths:
           - path: /
@@ -23,4 +23,4 @@ spec:
               service:
                 name: mcp-inspector-http
                 port:
-                  number: 6277
+                  number: {{ .Values.service.proxy.port }}

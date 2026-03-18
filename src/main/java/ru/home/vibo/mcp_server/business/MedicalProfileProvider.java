@@ -1,7 +1,10 @@
 package ru.home.vibo.mcp_server.business;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 
+@Component
 public class MedicalProfileProvider {
 
     private static final Map<String, String> PROFILES = Map.of(
@@ -13,11 +16,15 @@ public class MedicalProfileProvider {
                     """,
 
             "Лиссандра", """
-                    при пульсе меньше 20 приступ филантропии, а если больше то синдром эгоистки"
+                    при пульсе меньше 20 приступ филантропии, а если больше то синдром эгоистки
                     """
     );
 
-    public static String getMedicalProfile(String name) {
-        return PROFILES.get(name); // пусть кидает NPE
+    public String getMedicalProfile(String name) {
+        String profile = PROFILES.get(name);
+        if (profile == null) {
+            throw new IllegalArgumentException("Unknown patient: " + name);
+        }
+        return profile;
     }
 }
