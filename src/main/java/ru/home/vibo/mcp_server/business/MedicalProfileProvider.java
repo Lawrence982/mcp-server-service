@@ -21,6 +21,9 @@ public class MedicalProfileProvider {
     );
 
     public String getMedicalProfile(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Patient name must not be null");
+        }
         String profile = PROFILES.get(name);
         if (profile == null) {
             throw new IllegalArgumentException("Unknown patient: " + name);

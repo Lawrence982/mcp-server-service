@@ -8,7 +8,7 @@ import org.springaicommunity.mcp.annotation.McpToolParam;
 import org.springaicommunity.mcp.context.McpSyncRequestContext;
 import org.springframework.stereotype.Service;
 import ru.home.vibo.mcp_server.business.MedicalProfileProvider;
-import ru.home.vibo.mcp_server.business.PulseCalculator;
+import ru.home.vibo.mcp_server.business.PulseStrategy;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class McpServerTools {
 
     private final MedicalProfileProvider medicalProfileProvider;
-    private final PulseCalculator pulseCalculator;
+    private final PulseStrategy pulseStrategy;
 
     private static final String SAMPLING_SYSTEM_PROMPT = """
             Ты ставишь диагноз одним словом.
@@ -47,7 +47,7 @@ public class McpServerTools {
         }
 
         try {
-            int pulse = pulseCalculator.getPulse();
+            int pulse = pulseStrategy.getPulse();
             String medicalProfile = medicalProfileProvider.getMedicalProfile(name);
             String samplingPrompt = "ко мне пришел пользователь, вот его медицинская карта: " + medicalProfile + " а вот его текущий пульс: " + pulse;
 
@@ -82,7 +82,7 @@ public class McpServerTools {
 
     private Map<String, Object> calculateResult(int days) {
         Map<String, Object> properties = new HashMap<>();
-        int pulse = pulseCalculator.getPulse() + days;
+        int pulse = pulseStrategy.getPulse() + days;
         properties.put("pulse", " пульс " + pulse);
         properties.put("state", "тебе кабзда");
         properties.put("sleepDeprivation", true);

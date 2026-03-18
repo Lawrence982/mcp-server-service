@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
-public class PulseCalculator {
+public class PulseCalculator implements PulseStrategy {
 
     private static final int MIN_PULSE = 1;
     private static final int MAX_PULSE = 100;
